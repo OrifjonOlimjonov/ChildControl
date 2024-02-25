@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Child Control</string>
+    <string name="username"><b>username</b></string>
+    <string name="password"><b>password</b></string>
+    <string name="login">Login</string>
+    <string name="if_you_are_not_registered"><b>if you are not registered. </b></string>
+    <string name="register">Register</string>
+</resources>
