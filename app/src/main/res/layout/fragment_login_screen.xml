@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/inter_bold"
-        android:text="Get Started"
+        android:text="@string/get_started"
         android:textColor="@color/white"
         android:textSize="@dimen/_28ssp"
         android:textStyle="bold"
@@ -81,7 +81,6 @@
         app:layout_constraintTop_toBottomOf="@id/editTextPassword"
         app:layout_constraintVertical_bias="0.1" />
 
-
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -104,5 +103,7 @@
             android:text="@string/register"
             android:textColor="#2D67FF"
             android:textStyle="bold" />
+
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
