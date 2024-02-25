@@ -57,6 +57,9 @@ dependencies {
     implementation(libs.sdp.android)
     implementation(libs.ssp.android)
 
+    implementation(libs.androidx.room.runtime)
+    annotationProcessor(libs.androidx.room.compiler)
+    kapt(libs.androidx.room.compiler)
 }
 kapt {
     correctErrorTypes = true
