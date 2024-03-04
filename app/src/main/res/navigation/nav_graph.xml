@@ -7,12 +7,12 @@
 
     <fragment
         android:id="@+id/loginScreenFragment"
-        android:name="uz.orifjon.childcontrol.fragments.LoginScreenFragment"
+        android:name="uz.orifjon.childcontrol.fragments.loginscreen.LoginScreenFragment"
         android:label="fragment_login_screen"
         tools:layout="@layout/fragment_login_screen" />
     <fragment
         android:id="@+id/registrationScreenFragment"
-        android:name="uz.orifjon.childcontrol.fragments.RegistrationScreenFragment"
+        android:name="uz.orifjon.childcontrol.fragments.registrationscreen.RegistrationScreenFragment"
         android:label="fragment_registration_screen"
         tools:layout="@layout/fragment_registration_screen" />
 </navigation>

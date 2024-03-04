@@ -1,4 +1,4 @@
-package uz.orifjon.childcontrol.fragments
+package uz.orifjon.childcontrol.fragments.mainscreen
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -6,22 +6,26 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import uz.orifjon.childcontrol.R
-import uz.orifjon.childcontrol.databinding.FragmentRegistrationScreenBinding
+import uz.orifjon.childcontrol.databinding.FragmentMainBinding
 
-
-class RegistrationScreenFragment : Fragment() {
-
-    private var _binding:FragmentRegistrationScreenBinding?=null
+class MainFragment : Fragment() {
+    private var _binding:FragmentMainBinding?=null
     private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentRegistrationScreenBinding.inflate(inflater,container,false)
+        _binding = FragmentMainBinding.inflate(inflater,container,false)
+
+
+
 
         return binding.root
     }
+
+
+
 
     override fun onDestroyView() {
         super.onDestroyView()

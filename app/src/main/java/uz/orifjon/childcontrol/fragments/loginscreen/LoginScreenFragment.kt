@@ -1,4 +1,4 @@
-package uz.orifjon.childcontrol.fragments
+package uz.orifjon.childcontrol.fragments.loginscreen
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
