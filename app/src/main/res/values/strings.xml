@@ -13,6 +13,9 @@
     <string name="term">Terms of Services &amp; Privacy Policy</string>
     <string name="registration">Registration</string>
     <string name="get_started">Get Started</string>
+    <string name="parental">Parental</string>
+    <string name="control">Control</string>
+    <string name="children">Children</string>
 
 
 </resources>
