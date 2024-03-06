@@ -105,7 +105,7 @@
     <LinearLayout
         android:layout_width="@dimen/_280sdp"
         android:layout_height="@dimen/_50sdp"
-        android:background="@color/white"
+        android:background="@drawable/add_child_background"
         android:gravity="center|start"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
