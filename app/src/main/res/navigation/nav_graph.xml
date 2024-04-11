@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/registrationScreenFragment">
+    app:startDestination="@id/loginScreenFragment">
 
     <fragment
         android:id="@+id/loginScreenFragment"
@@ -15,4 +15,14 @@
         android:name="uz.orifjon.childcontrol.fragments.registrationscreen.RegistrationScreenFragment"
         android:label="fragment_registration_screen"
         tools:layout="@layout/fragment_registration_screen" />
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="uz.orifjon.childcontrol.fragments.mainscreen.MainFragment"
+        android:label="fragment_main"
+        tools:layout="@layout/fragment_main" />
+    <fragment
+        android:id="@+id/verificationSMSFragment"
+        android:name="uz.orifjon.childcontrol.fragments.verificationscreen.VerificationSMSFragment"
+        android:label="fragment_verification_s_m_s"
+        tools:layout="@layout/fragment_verification_s_m_s" />
 </navigation>
