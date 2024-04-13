@@ -11,7 +11,7 @@ interface UserDao {
     @Insert
     fun insertUser(user: User): Long
 
-    @Query("SELECT * FROM user WHERE id = :id")
-    fun getUser(id: Int): User?
+    @Query("SELECT * FROM user")
+    fun getUser(): User?
 
 }

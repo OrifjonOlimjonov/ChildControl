@@ -1,5 +1,6 @@
 package uz.orifjon.childcontrol.fragments.verificationscreen
 
+import android.os.Build
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
@@ -9,8 +10,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.annotation.RequiresApi
 import androidx.core.widget.addTextChangedListener
 import androidx.navigation.fragment.findNavController
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.FirebaseAuth
@@ -18,29 +21,64 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthOptions
 import com.google.firebase.auth.PhoneAuthProvider
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.messaging.FirebaseMessaging
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import uz.orifjon.childcontrol.R
 import uz.orifjon.childcontrol.databinding.FragmentVerificationSMSBinding
+import uz.orifjon.childcontrol.models.User
+import uz.orifjon.childcontrol.models.UserDatabase
 import java.util.concurrent.TimeUnit
 
 class VerificationSMSFragment : Fragment() {
 
     private lateinit var binding: FragmentVerificationSMSBinding
+
+
+    private lateinit var firebaseDatabase: FirebaseDatabase
+    private lateinit var reference: DatabaseReference
+
+
     private lateinit var auth: FirebaseAuth
     private lateinit var countDownTimer: CountDownTimer
-    private lateinit var number: String
+    private lateinit var user: User
     private var storedVerificationId: String? = null
     private var resendToken: PhoneAuthProvider.ForceResendingToken? = null
+    private lateinit var userToken: String
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentVerificationSMSBinding.inflate(inflater, container, false)
-
-        number = arguments?.getString("number")!!
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            user = arguments?.getSerializable("user", User::class.java)!!
+        } else {
+            user = arguments?.getSerializable("user")!! as User
+        }
         auth = FirebaseAuth.getInstance()
+
+        initialSetting()
+
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(
+            OnCompleteListener { task ->
+                if (!task.isSuccessful) {
+                    Log.w("TAG", "Fetching FCM registration token failed", task.exception)
+                    return@OnCompleteListener
+                }
+
+                // Get new FCM registration token
+                userToken = task.result
+
+                // Log and toast
+                Log.d("TAG", userToken)
+                Toast.makeText(requireContext(), userToken, Toast.LENGTH_SHORT).show()
+            })
+
         timerOne()
-        binding.tv1.text = "Bir martalik kod  $number\nraqamiga yuborildi"
-        startPhoneNumberVerification(number)
+        binding.tv1.text = "Bir martalik kod  ${user.phoneNumber}\nraqamiga yuborildi"
+        startPhoneNumberVerification(user.phoneNumber)
         binding.editText.addTextChangedListener {
             val verification = it.toString()
             if (verification.length == 6) {
@@ -50,7 +88,7 @@ class VerificationSMSFragment : Fragment() {
             }
         }
         binding.btnResend.setOnClickListener {
-            reSendPhoneNumberVerification(number)
+            reSendPhoneNumberVerification(user.phoneNumber)
             timerOne()
             binding.editText.setText("")
             binding.btnResend.visibility = View.INVISIBLE
@@ -64,6 +102,12 @@ class VerificationSMSFragment : Fragment() {
             }
         requireActivity().onBackPressedDispatcher.addCallback(requireActivity(), callback)
         return binding.root
+    }
+
+    private fun initialSetting() {
+        userToken = ""
+        firebaseDatabase = FirebaseDatabase.getInstance()
+        reference = firebaseDatabase.getReference("users")
     }
 
     fun timerOne() {
@@ -135,9 +179,10 @@ class VerificationSMSFragment : Fragment() {
         auth.signInWithCredential(credential)
             .addOnCompleteListener(requireActivity()) { task ->
                 if (task.isSuccessful) {
-                    val user = task.result?.user
+                    saveUser()
                     val bundle = Bundle()
-                    bundle.putString("number", number)
+                    bundle.putSerializable("user", user)
+                    UserDatabase.getDatabase(requireContext()).userDao().insertUser(user)
                     findNavController().navigate(R.id.mainFragment, bundle)
                 } else {
                     if (task.exception is FirebaseAuthInvalidCredentialsException) {
@@ -149,6 +194,15 @@ class VerificationSMSFragment : Fragment() {
                     }
                 }
             }
+    }
+
+    private fun saveUser() {
+        val key = reference.push().key
+
+        val user =
+            User(key!!, name = user.name, phoneNumber = user.phoneNumber, user.password, userToken)
+
+        reference.child("$key/").setValue(user)
     }
 
 }
