@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import uz.orifjon.childcontrol.R
 import uz.orifjon.childcontrol.databinding.FragmentRegistrationScreenBinding
-import uz.orifjon.childcontrol.models.User
+import uz.orifjon.childcontrol.models.local.User
 
 
 class RegistrationScreenFragment : Fragment() {

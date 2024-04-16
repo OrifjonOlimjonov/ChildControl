@@ -1,9 +1,8 @@
-package uz.orifjon.childcontrol.models.child
+package uz.orifjon.childcontrol.models.local
 
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
-import androidx.room.Relation
 
 @Entity
 class Children {

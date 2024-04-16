@@ -1,11 +1,12 @@
-package uz.orifjon.childcontrol.models.child
+package uz.orifjon.childcontrol.models.local
 
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
+import java.io.Serializable
 
 @Entity
-class Task {
+class Task:Serializable {
     @PrimaryKey(autoGenerate = true)
     var taskId: Long = 0
     var title: String = ""

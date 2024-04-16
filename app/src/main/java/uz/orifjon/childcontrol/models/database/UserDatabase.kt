@@ -1,4 +1,4 @@
-package uz.orifjon.childcontrol.models
+package uz.orifjon.childcontrol.models.database
 
 import androidx.room.RoomDatabase
 
@@ -7,9 +7,10 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.TypeConverters
-import uz.orifjon.childcontrol.models.child.Children
-import uz.orifjon.childcontrol.models.child.Task
-import uz.orifjon.childcontrol.models.child.converters.PairConverter
+import uz.orifjon.childcontrol.models.local.User
+import uz.orifjon.childcontrol.models.local.Children
+import uz.orifjon.childcontrol.models.local.Task
+import uz.orifjon.childcontrol.models.local.converters.PairConverter
 import uz.orifjon.childcontrol.models.daos.ChildrenDao
 import uz.orifjon.childcontrol.models.daos.TaskDao
 import uz.orifjon.childcontrol.models.daos.UserDao

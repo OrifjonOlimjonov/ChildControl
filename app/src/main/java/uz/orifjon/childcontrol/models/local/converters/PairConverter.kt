@@ -1,4 +1,4 @@
-package uz.orifjon.childcontrol.models.child.converters
+package uz.orifjon.childcontrol.models.local.converters
 
 import androidx.room.TypeConverter
 

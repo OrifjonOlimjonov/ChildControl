@@ -25,4 +25,9 @@
         android:name="uz.orifjon.childcontrol.fragments.verificationscreen.VerificationSMSFragment"
         android:label="fragment_verification_s_m_s"
         tools:layout="@layout/fragment_verification_s_m_s" />
+    <fragment
+        android:id="@+id/addingChildFragment"
+        android:name="uz.orifjon.childcontrol.fragments.addingchildscreen.AddingChildFragment"
+        android:label="fragment_adding_child"
+        tools:layout="@layout/fragment_adding_child" />
 </navigation>

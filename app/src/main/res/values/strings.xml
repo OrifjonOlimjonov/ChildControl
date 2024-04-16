@@ -4,18 +4,24 @@
     <string name="phone_number"><b>phone number</b></string>
     <string name="yourusername"><b>your username</b></string>
     <string name="name"><b>your name</b></string>
+    <string name="child_name"><b>child name</b></string>
+    <string name="child_username"><b>child username</b></string>
     <string name="password"><b>password</b></string>
     <string name="your_phone_number"><b>your phone number</b></string>
     <string name="yourpassword"><b>your password</b></string>
+    <string name="child_password"><b>child password</b></string>
     <string name="login">Login</string>
     <string name="if_you_are_not_registered"><b>if you are not registered. </b></string>
     <string name="agree"><b>I agree to the </b></string>
     <string name="register">Register</string>
+    <string name="add">Add</string>
     <string name="term">Terms of Services &amp; Privacy Policy</string>
     <string name="registration">Registration</string>
     <string name="get_started">Get Started</string>
     <string name="parental">Parental</string>
+    <string name="adding">Adding</string>
     <string name="control">Control</string>
+    <string name="child">Child</string>
     <string name="children">Children</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

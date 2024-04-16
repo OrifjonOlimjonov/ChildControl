@@ -10,7 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
-import androidx.annotation.RequiresApi
 import androidx.core.widget.addTextChangedListener
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.tasks.OnCompleteListener
@@ -24,12 +23,11 @@ import com.google.firebase.auth.PhoneAuthProvider
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.messaging.FirebaseMessaging
-import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageReference
 import uz.orifjon.childcontrol.R
 import uz.orifjon.childcontrol.databinding.FragmentVerificationSMSBinding
-import uz.orifjon.childcontrol.models.User
-import uz.orifjon.childcontrol.models.UserDatabase
+import uz.orifjon.childcontrol.models.UserForFirebase
+import uz.orifjon.childcontrol.models.local.User
+import uz.orifjon.childcontrol.models.database.UserDatabase
 import java.util.concurrent.TimeUnit
 
 class VerificationSMSFragment : Fragment() {
@@ -98,12 +96,14 @@ class VerificationSMSFragment : Fragment() {
         requireActivity().onBackPressedDispatcher.addCallback(requireActivity(), callback)
         return binding.root
     }
+
     val callback: OnBackPressedCallback =
         object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 requireActivity().finishAffinity()
             }
         }
+
     private fun initialSetting() {
         userToken = ""
         firebaseDatabase = FirebaseDatabase.getInstance()
@@ -179,9 +179,20 @@ class VerificationSMSFragment : Fragment() {
         auth.signInWithCredential(credential)
             .addOnCompleteListener(requireActivity()) { task ->
                 if (task.isSuccessful) {
-                    saveUser()
+                    val key = saveUser()
                     val bundle = Bundle()
-                    bundle.putSerializable("user", user)
+                    bundle.putSerializable(
+                        "user",
+                        UserForFirebase(
+                            key,
+                            user.name,
+                            user.phoneNumber,
+                            user.password,
+                            userToken
+                        )
+                    )
+                    user.uid = key
+                    user.userToken = userToken
                     UserDatabase.getDatabase(requireContext()).userDao().insertUser(user)
                     findNavController().navigate(R.id.mainFragment, bundle)
                 } else {
@@ -196,13 +207,19 @@ class VerificationSMSFragment : Fragment() {
             }
     }
 
-    private fun saveUser() {
+    private fun saveUser(): String {
         val key = reference.push().key
 
-        val user =
-            User(key!!, name = user.name, phoneNumber = user.phoneNumber, user.password, userToken)
+        val user = UserForFirebase(
+            key!!,
+            name = user.name,
+            phoneNumber = user.phoneNumber,
+            user.password,
+            userToken
+        )
 
         reference.child("$key/").setValue(user)
+        return key
     }
 
 }

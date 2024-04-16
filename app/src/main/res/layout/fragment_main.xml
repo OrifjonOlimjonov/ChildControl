@@ -53,8 +53,8 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/btnProfile"
-            android:layout_width="@dimen/_40sdp"
-            android:layout_height="@dimen/_40sdp"
+            android:layout_width="@dimen/_35sdp"
+            android:layout_height="@dimen/_35sdp"
             android:layout_marginRight="@dimen/_5sdp"
             android:elevation="0dp"
             app:cardCornerRadius="@dimen/_50sdp"
@@ -67,7 +67,8 @@
                 android:id="@+id/profileImageView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/ic_launcher_background" />
+                android:src="@drawable/profile_circle"
+                app:tint="@color/blue" />
 
         </androidx.cardview.widget.CardView>
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -98,7 +99,7 @@
             android:id="@+id/textViewInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="You have not added children in the device yet"
+            android:text="You have not added children in the profile yet"
             android:textSize="@dimen/_14ssp" />
     </LinearLayout>
 
@@ -120,9 +121,9 @@
             android:layout_height="@dimen/_30sdp"
             android:layout_marginLeft="@dimen/_5sdp"
             android:layout_marginRight="@dimen/_5sdp"
-            app:cardElevation="@dimen/_5sdp"
             app:cardBackgroundColor="@color/blue"
-            app:cardCornerRadius="@dimen/_30sdp">
+            app:cardCornerRadius="@dimen/_30sdp"
+            app:cardElevation="@dimen/_5sdp">
 
             <ImageView
                 android:layout_width="@dimen/_20sdp"

@@ -1,7 +1,6 @@
 package uz.orifjon.childcontrol.fragments.loginscreen
 
 import android.os.Bundle
-import android.service.autofill.UserData
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,8 +15,9 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import uz.orifjon.childcontrol.R
 import uz.orifjon.childcontrol.databinding.FragmentLoginScreenBinding
-import uz.orifjon.childcontrol.models.User
-import uz.orifjon.childcontrol.models.UserDatabase
+import uz.orifjon.childcontrol.models.UserForFirebase
+import uz.orifjon.childcontrol.models.local.User
+import uz.orifjon.childcontrol.models.database.UserDatabase
 
 
 class LoginScreenFragment : Fragment() {
@@ -28,7 +28,7 @@ class LoginScreenFragment : Fragment() {
     private lateinit var firebaseDatabase: FirebaseDatabase
     private lateinit var reference: DatabaseReference
     private val binding get() = _binding!!
-    private lateinit var user: User
+    private lateinit var user: UserForFirebase
     private var k = false
 
     override fun onCreateView(
@@ -36,11 +36,19 @@ class LoginScreenFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentLoginScreenBinding.inflate(inflater, container, false)
-        val userLocal = UserDatabase.getDatabase(requireContext()).userDao().getUser() ?: 0
+        val userLocal = UserDatabase.getDatabase(requireContext()).userDao().getUser()
         initialSetting()
-        if (userLocal != 0) {
+        if (userLocal != null) {
             val bundle = Bundle()
-            bundle.putSerializable("user", userLocal)
+            bundle.putSerializable(
+                "user", UserForFirebase(
+                    userLocal.uid,
+                    userLocal.name,
+                    userLocal.phoneNumber,
+                    userLocal.password,
+                    userLocal.userToken
+                )
+            )
             findNavController().navigate(R.id.mainFragment, bundle)
         }
         return binding.root
@@ -73,7 +81,7 @@ class LoginScreenFragment : Fragment() {
                         override fun onDataChange(snapshot: DataSnapshot) {
                             val children = snapshot.children
                             children.forEach {
-                                val value = it.getValue(User::class.java)
+                                val value = it.getValue(UserForFirebase::class.java)
                                 if (value != null && value.phoneNumber == binding.editTextPhoneNumber.text.toString()
                                         .trim() && value.password == binding.editTextPassword.text.toString()
                                         .trim()
@@ -81,7 +89,15 @@ class LoginScreenFragment : Fragment() {
                                     user = value
                                     val bundle = Bundle()
                                     bundle.putSerializable("user", user)
-                                    UserDatabase.getDatabase(requireContext()).userDao().insertUser(user)
+                                    UserDatabase.getDatabase(requireContext()).userDao().insertUser(
+                                        User(
+                                            user.uid,
+                                            user.name,
+                                            user.phoneNumber,
+                                            user.password,
+                                            user.userToken
+                                        )
+                                    )
                                     findNavController().navigate(R.id.mainFragment, bundle)
                                     k = true
                                 }

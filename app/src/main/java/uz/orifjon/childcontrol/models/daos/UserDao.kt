@@ -3,7 +3,7 @@ package uz.orifjon.childcontrol.models.daos
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
-import uz.orifjon.childcontrol.models.User
+import uz.orifjon.childcontrol.models.local.User
 
 
 @Dao
