@@ -11,11 +11,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/background_imgae"
-        app:layout_constraintVertical_bias="0.8"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.8" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/toolbar"
@@ -98,26 +98,29 @@
             android:id="@+id/textViewInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="You have not  added children in the device yet"
+            android:text="You have not added children in the device yet"
             android:textSize="@dimen/_14ssp" />
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="@dimen/_280sdp"
+        android:id="@+id/btnAddChild"
+        android:layout_width="@dimen/_50sdp"
         android:layout_height="@dimen/_50sdp"
         android:background="@drawable/add_child_background"
-        android:gravity="center|start"
+        android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.95"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/line"
-        app:layout_constraintVertical_bias="0.01">
+        app:layout_constraintVertical_bias="0.95">
 
         <androidx.cardview.widget.CardView
             android:layout_width="@dimen/_30sdp"
             android:layout_height="@dimen/_30sdp"
             android:layout_marginLeft="@dimen/_5sdp"
             android:layout_marginRight="@dimen/_5sdp"
+            app:cardElevation="@dimen/_5sdp"
             app:cardBackgroundColor="@color/blue"
             app:cardCornerRadius="@dimen/_30sdp">
 
@@ -128,13 +131,6 @@
                 android:src="@drawable/plus_icon" />
         </androidx.cardview.widget.CardView>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/inter_regular"
-            android:text="Add a child device"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_18ssp" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView

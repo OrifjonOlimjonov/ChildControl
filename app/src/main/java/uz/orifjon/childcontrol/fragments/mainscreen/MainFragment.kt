@@ -18,9 +18,6 @@ class MainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentMainBinding.inflate(inflater, container, false)
-
-
-
         requireActivity().onBackPressedDispatcher.addCallback(requireActivity(), callback)
 
         return binding.root
@@ -33,6 +30,28 @@ class MainFragment : Fragment() {
                 requireActivity().finishAffinity()
             }
         }
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        addChild()
+
+        clickProfile()
+
+    }
+
+    private fun clickProfile() {
+        binding.btnProfile.setOnClickListener {
+
+        }
+    }
+
+    private fun addChild() {
+         binding.btnAddChild.setOnClickListener {
+
+         }
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()

@@ -3,6 +3,7 @@ package uz.orifjon.childcontrol.models
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
+import androidx.room.Relation
 import uz.orifjon.childcontrol.models.child.Children
 import java.io.Serializable
 
@@ -14,6 +15,8 @@ class User : Serializable {
     var phoneNumber: String = ""
     var password: String = ""
     var userToken: String = ""
+    @Relation(parentColumn = "uid",
+        entityColumn = "childId")
     var children:List<Children>?=null
 
     constructor()
