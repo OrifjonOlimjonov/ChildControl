@@ -1,8 +1,8 @@
 package uz.orifjon.childcontrol.models.child
 
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.PrimaryKey
-import java.util.Date
 
 @Entity
 class Task {
@@ -11,23 +11,26 @@ class Task {
     var title: String = ""
     var description: String = ""
     var deadline: String? = null
+    var childrenId:Long = 0
 
 
-    constructor()
 
     constructor(taskId: Long) {
         this.taskId = taskId
     }
 
+    @Ignore
     constructor(title: String) {
         this.title = title
     }
 
+    @Ignore
     constructor(title: String, description: String) {
         this.title = title
         this.description = description
     }
 
+    @Ignore
     constructor(title: String, description: String, deadline: String) {
         this.title = title
         this.description = description

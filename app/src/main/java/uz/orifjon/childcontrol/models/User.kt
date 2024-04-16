@@ -15,9 +15,6 @@ class User : Serializable {
     var phoneNumber: String = ""
     var password: String = ""
     var userToken: String = ""
-    @Relation(parentColumn = "uid",
-        entityColumn = "childId")
-    var children:List<Children>?=null
 
     constructor()
     @Ignore
