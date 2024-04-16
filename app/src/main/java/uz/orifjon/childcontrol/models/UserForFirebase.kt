@@ -9,7 +9,7 @@ class UserForFirebase : Serializable {
     var phoneNumber: String = ""
     var password: String = ""
     var userToken: String = ""
-    var childList: List<ChildrenForFirebase>? = null
+    var childList: List<ChildrenForFirebase> = arrayListOf()
 
     constructor()
 
@@ -48,21 +48,25 @@ class UserForFirebase : Serializable {
         this.password = password
         this.userToken = userToken
     }
+
     constructor(
         uid: String,
         name: String,
         phoneNumber: String,
         password: String,
         userToken: String,
-        taskList:List<TaskForFirebase>
+        childList: List<ChildrenForFirebase>
     ) {
         this.uid = uid
         this.name = name
         this.phoneNumber = phoneNumber
         this.password = password
         this.userToken = userToken
+        this.childList = childList
     }
 
 
-
+    override fun toString(): String {
+        return "$uid///////$name/////////$phoneNumber//////////$password////////$userToken////////$childList"
+    }
 }

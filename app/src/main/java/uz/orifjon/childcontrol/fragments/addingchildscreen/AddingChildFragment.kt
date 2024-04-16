@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import uz.orifjon.childcontrol.databinding.FragmentAddingChildBinding
+import uz.orifjon.childcontrol.models.ChildLocation
 import uz.orifjon.childcontrol.models.ChildrenForFirebase
 import uz.orifjon.childcontrol.models.UserForFirebase
 
@@ -28,6 +29,7 @@ class AddingChildFragment : Fragment() {
     ): View {
         _binding = FragmentAddingChildBinding.inflate(inflater, container, false)
         userForFirebase = arguments?.getSerializable("user") as UserForFirebase
+        Toast.makeText(requireContext(), "$userForFirebase", Toast.LENGTH_SHORT).show()
         list = ArrayList()
         initialSetting()
         return binding.root
@@ -37,19 +39,12 @@ class AddingChildFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.apply {
+            Toast.makeText(requireContext(), "$userForFirebase", Toast.LENGTH_SHORT).show()
             btnAdd.setOnClickListener {
-                val childList = userForFirebase.childList
-                if (childList != null) {
-                    list = childList
-                    list.toMutableList().add(getChild())
-                    userForFirebase.childList = list
-                } else {
-                    list = ArrayList()
-                    list.toMutableList().add(getChild())
-                    userForFirebase.childList = list
-                }
+                val childList = userForFirebase.childList as ArrayList
+                childList.add(getChild())
                 Toast.makeText(requireContext(), "$userForFirebase", Toast.LENGTH_SHORT).show()
-                reference.child(userForFirebase.uid).child("childList/").setValue(list)
+                reference.child(userForFirebase.uid).child("childList/").setValue(childList)
                 findNavController().popBackStack()
             }
         }
@@ -72,7 +67,7 @@ class AddingChildFragment : Fragment() {
             name = name,
             userName = username,
             password = password,
-            Pair(0.0, 0.0),
+            ChildLocation(0.0,0.0),
             arrayListOf()
         )
     }

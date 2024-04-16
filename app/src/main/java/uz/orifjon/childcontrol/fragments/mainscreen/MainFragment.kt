@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.Firebase
@@ -31,6 +32,7 @@ class MainFragment : Fragment() {
         _binding = FragmentMainBinding.inflate(inflater, container, false)
         requireActivity().onBackPressedDispatcher.addCallback(requireActivity(), callback)
         userForFirebase = arguments?.getSerializable("user") as UserForFirebase
+        Toast.makeText(requireContext(), "$userForFirebase", Toast.LENGTH_SHORT).show()
         initialSetting()
         return binding.root
     }
@@ -63,9 +65,7 @@ class MainFragment : Fragment() {
         reference.child(userForFirebase.uid).addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val value = dataSnapshot.getValue(UserForFirebase::class.java)
-
-                userForFirebase = value?:userForFirebase
-
+                userForFirebase = value!!
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -82,8 +82,10 @@ class MainFragment : Fragment() {
 
     private fun addChild() {
         binding.btnAddChild.setOnClickListener {
+            reference.onDisconnect()
             val bundle = Bundle()
             bundle.putSerializable("user", userForFirebase)
+            Toast.makeText(requireContext(), "$userForFirebase", Toast.LENGTH_SHORT).show()
             findNavController().navigate(R.id.addingChildFragment, bundle)
         }
     }

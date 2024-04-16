@@ -9,7 +9,7 @@ class ChildrenForFirebase : Serializable {
     var name: String = ""
     var userName: String = ""
     var password: String = " "
-    var locationNow: Pair<Double, Double>? = null
+    var locationNow: ChildLocation? = null
     var taskList: List<Task>? = null
 
     constructor()
@@ -36,17 +36,33 @@ class ChildrenForFirebase : Serializable {
     }
 
 
-    constructor(childId: String, name: String, userName: String, password: String,localNow:Pair<Double,Double>) {
+    constructor(
+        childId: String,
+        name: String,
+        userName: String,
+        password: String,
+        localNow: ChildLocation
+    ) {
         this.childId = childId
         this.name = name
         this.userName = userName
         this.password = password
+        this.locationNow = localNow
     }
-    constructor(childId: String, name: String, userName: String, password: String,localNow:Pair<Double,Double>,taskList:List<Task>) {
+
+    constructor(
+        childId: String,
+        name: String,
+        userName: String,
+        password: String,
+        localNow: ChildLocation,
+        taskList: List<Task>
+    ) {
         this.childId = childId
         this.name = name
         this.userName = userName
         this.password = password
+        this.locationNow = localNow
         this.taskList = taskList
     }
 
