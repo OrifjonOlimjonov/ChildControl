@@ -66,4 +66,13 @@ class ChildrenForFirebase : Serializable {
         this.taskList = taskList
     }
 
+    override fun equals(other: Any?): Boolean {
+        return other is ChildrenForFirebase &&
+                this.childId == other.childId &&
+                this.name == other.name &&
+                this.userName == other.userName &&
+                this.password == other.password &&
+                this.taskList == other.taskList
+    }
+
 }

@@ -82,7 +82,6 @@ class MainFragment : Fragment() {
 
     private fun addChild() {
         binding.btnAddChild.setOnClickListener {
-            reference.onDisconnect()
             val bundle = Bundle()
             bundle.putSerializable("user", userForFirebase)
             Toast.makeText(requireContext(), "$userForFirebase", Toast.LENGTH_SHORT).show()
