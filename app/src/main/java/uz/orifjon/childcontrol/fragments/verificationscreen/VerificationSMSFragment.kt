@@ -94,16 +94,16 @@ class VerificationSMSFragment : Fragment() {
             binding.btnResend.visibility = View.INVISIBLE
         }
 
-        val callback: OnBackPressedCallback =
-            object : OnBackPressedCallback(true) {
-                override fun handleOnBackPressed() {
-                    requireActivity().finishAffinity()
-                }
-            }
+
         requireActivity().onBackPressedDispatcher.addCallback(requireActivity(), callback)
         return binding.root
     }
-
+    val callback: OnBackPressedCallback =
+        object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                requireActivity().finishAffinity()
+            }
+        }
     private fun initialSetting() {
         userToken = ""
         firebaseDatabase = FirebaseDatabase.getInstance()

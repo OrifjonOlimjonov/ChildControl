@@ -1,15 +1,14 @@
 package uz.orifjon.childcontrol.fragments.loginscreen
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.service.autofill.UserData
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.widget.addTextChangedListener
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.PhoneAuthProvider
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -19,7 +18,6 @@ import uz.orifjon.childcontrol.R
 import uz.orifjon.childcontrol.databinding.FragmentLoginScreenBinding
 import uz.orifjon.childcontrol.models.User
 import uz.orifjon.childcontrol.models.UserDatabase
-import java.util.HashMap
 
 
 class LoginScreenFragment : Fragment() {
@@ -62,48 +60,67 @@ class LoginScreenFragment : Fragment() {
         onRegister()
 
         onLogin()
-
-        onCheckExistUser()
     }
 
     private fun onCheckExistUser() {
-        binding.editTextPhoneNumber.addTextChangedListener { it ->
-            val text = it.toString()
-            if (text.length == 13) {
-                reference.addValueEventListener(object : ValueEventListener {
-                    override fun onDataChange(snapshot: DataSnapshot) {
-                        val children = snapshot.children
-                        children.forEach {
-                            val value = it.getValue(User::class.java)
-                            if (value != null && value.phoneNumber == binding.editTextPhoneNumber.text.toString()
-                                    .trim() && value.password == binding.editTextPassword.text.toString()
-                                    .trim()
-                            ) {
-                                user = value
-                                k = true
-                            }
-                        }
-                    }
+        val phoneNumber = binding.editTextPhoneNumber.text.toString()
+        val password = binding.editTextPassword.text.toString()
+        if (phoneNumber.isNotEmpty()) {
+            if (phoneNumber.length == 13) {
+                if (password.isNotEmpty()) {
+                    reference.addValueEventListener(object : ValueEventListener {
 
-                    override fun onCancelled(error: DatabaseError) {}
-                })
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            val children = snapshot.children
+                            children.forEach {
+                                val value = it.getValue(User::class.java)
+                                if (value != null && value.phoneNumber == binding.editTextPhoneNumber.text.toString()
+                                        .trim() && value.password == binding.editTextPassword.text.toString()
+                                        .trim()
+                                ) {
+                                    user = value
+                                    val bundle = Bundle()
+                                    bundle.putSerializable("user", user)
+                                    UserDatabase.getDatabase(requireContext()).userDao().insertUser(user)
+                                    findNavController().navigate(R.id.mainFragment, bundle)
+                                    k = true
+                                }
+                            }
+                            binding.btnLogin.isEnabled = true
+                            binding.progressBar.visibility = View.INVISIBLE
+                            if (!k) Toast.makeText(
+                                requireContext(),
+                                "Bunday user ro'yxatdan o'tmagan!!",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+
+                        override fun onCancelled(error: DatabaseError) {
+
+                        }
+                    })
+                } else {
+                    Toast.makeText(requireContext(), "Parolingizni kiriting!!", Toast.LENGTH_SHORT)
+                        .show()
+                }
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    "raqamingiz kodi +998 dan boshlanishi kerak!",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
+        } else {
+            Toast.makeText(requireContext(), "Telefon raqamingizni kiriting!!", Toast.LENGTH_SHORT)
+                .show()
         }
     }
 
     private fun onLogin() {
         binding.btnLogin.setOnClickListener {
-            if (k) {
-                val bundle = Bundle()
-                bundle.putSerializable("user", user)
-                findNavController().navigate(R.id.mainFragment, bundle)
-            } else {
-                Toast.makeText(
-                    requireContext(),
-                    "Bunday user ro'yxatdan o'tmagan!!",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
+            binding.btnLogin.isEnabled = false
+            binding.progressBar.visibility = View.VISIBLE
+            onCheckExistUser()
         }
     }
 
