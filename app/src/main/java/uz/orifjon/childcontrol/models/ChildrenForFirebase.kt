@@ -8,7 +8,7 @@ class ChildrenForFirebase : Serializable {
     var childId: String = ""
     var name: String = ""
     var userName: String = ""
-    var password: String = " "
+    var password: String = ""
     var locationNow: ChildLocation? = null
     var taskList: List<Task>? = null
 

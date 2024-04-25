@@ -17,6 +17,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import uz.orifjon.childcontrol.R
 import uz.orifjon.childcontrol.databinding.FragmentMainBinding
+import uz.orifjon.childcontrol.fragments.mainscreen.adapters.RecyclerViewAdapterForChildren
 import uz.orifjon.childcontrol.models.UserForFirebase
 
 class MainFragment : Fragment() {
@@ -25,6 +26,7 @@ class MainFragment : Fragment() {
     private lateinit var userForFirebase: UserForFirebase
     private lateinit var firebaseDatabase: FirebaseDatabase
     private lateinit var reference: DatabaseReference
+    private lateinit var adapterForChildren: RecyclerViewAdapterForChildren
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -32,8 +34,14 @@ class MainFragment : Fragment() {
         _binding = FragmentMainBinding.inflate(inflater, container, false)
         requireActivity().onBackPressedDispatcher.addCallback(requireActivity(), callback)
         userForFirebase = arguments?.getSerializable("user") as UserForFirebase
-        Toast.makeText(requireContext(), "$userForFirebase", Toast.LENGTH_SHORT).show()
         initialSetting()
+        binding.btnAddChild.isEnabled = false
+        adapterForChildren = RecyclerViewAdapterForChildren { child ->
+            val bundle = Bundle()
+            bundle.putSerializable("child", child)
+            bundle.putSerializable("user", userForFirebase)
+            findNavController().navigate(R.id.controlScreenFragment, bundle)
+        }
         return binding.root
     }
 
@@ -61,11 +69,21 @@ class MainFragment : Fragment() {
 
     }
 
+    private fun updateUI() {
+        Toast.makeText(requireContext(), "${userForFirebase.childList}", Toast.LENGTH_SHORT).show()
+        binding.btnAddChild.isEnabled = true
+        binding.textViewInfo.visibility = View.GONE
+        binding.recyclerViewChildren.visibility = View.VISIBLE
+        adapterForChildren.submitList(userForFirebase.childList)
+        binding.recyclerViewChildren.adapter = adapterForChildren
+    }
+
     private fun getData() {
         reference.child(userForFirebase.uid).addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val value = dataSnapshot.getValue(UserForFirebase::class.java)
                 userForFirebase = value!!
+                updateUI()
             }
 
             override fun onCancelled(error: DatabaseError) {

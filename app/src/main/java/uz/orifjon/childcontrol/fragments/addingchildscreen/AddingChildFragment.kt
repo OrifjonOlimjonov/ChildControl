@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.database.DatabaseReference
@@ -32,6 +33,8 @@ class AddingChildFragment : Fragment() {
         Toast.makeText(requireContext(), "$userForFirebase", Toast.LENGTH_SHORT).show()
         list = ArrayList()
         initialSetting()
+
+        requireActivity().onBackPressedDispatcher.addCallback(requireActivity(), callback)
         return binding.root
     }
 
@@ -50,6 +53,13 @@ class AddingChildFragment : Fragment() {
         }
 
     }
+       val callback: OnBackPressedCallback =
+                   object : OnBackPressedCallback(true) {
+                       override fun handleOnBackPressed() {
+                        findNavController().popBackStack()
+                       }
+                   }
+
 
     private fun initialSetting() {
         firebaseDatabase = FirebaseDatabase.getInstance()
