@@ -35,4 +35,9 @@
         android:name="uz.orifjon.childcontrol.fragments.controlscreen.ControlScreenFragment"
         android:label="fragment_control_screen"
         tools:layout="@layout/fragment_control_screen" />
+    <fragment
+        android:id="@+id/mapsFragment"
+        android:name="uz.orifjon.childcontrol.fragments.getlocationscreen.MapsFragment"
+        android:label="fragment_maps"
+        tools:layout="@layout/fragment_maps" />
 </navigation>

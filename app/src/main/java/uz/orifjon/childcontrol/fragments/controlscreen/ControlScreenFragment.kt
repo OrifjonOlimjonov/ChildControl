@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import uz.orifjon.childcontrol.R
 import uz.orifjon.childcontrol.databinding.FragmentControlScreenBinding
 import uz.orifjon.childcontrol.models.ChildrenForFirebase
 import uz.orifjon.childcontrol.models.UserForFirebase
@@ -18,6 +19,7 @@ class ControlScreenFragment : Fragment() {
 
     private lateinit var userForFirebase: UserForFirebase
     private lateinit var childrenForFirebase: ChildrenForFirebase
+    private var position = 0
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -25,6 +27,7 @@ class ControlScreenFragment : Fragment() {
         _binding = FragmentControlScreenBinding.inflate(inflater, container, false)
         userForFirebase = arguments?.getSerializable("user") as UserForFirebase
         childrenForFirebase = arguments?.getSerializable("child") as ChildrenForFirebase
+        position = arguments?.getInt("position") ?: 0
         return binding.root
     }
 
@@ -42,18 +45,23 @@ class ControlScreenFragment : Fragment() {
         requireActivity().onBackPressedDispatcher.addCallback(requireActivity(), callback)
     }
 
-       val callback: OnBackPressedCallback =
-                   object : OnBackPressedCallback(true) {
-                       override fun handleOnBackPressed() {
-                         findNavController().popBackStack()
-                       }
-                   }
+    val callback: OnBackPressedCallback =
+        object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                findNavController().popBackStack()
+            }
+        }
 
     private fun onClickButtonGetLocation() {
         binding.btnGetLocation.setOnClickListener {
-
+            val bundle = Bundle()
+            bundle.putInt("position", position)
+            bundle.putSerializable("child", childrenForFirebase)
+            bundle.putSerializable("user", userForFirebase)
+            findNavController().navigate(R.id.mapsFragment, bundle)
         }
     }
+
     private fun onClickButtonUsedApps() {
         binding.btnUsedApps.setOnClickListener {
 
@@ -65,16 +73,12 @@ class ControlScreenFragment : Fragment() {
 
         }
     }
+
     private fun onClickButtonScheduleSMS() {
         binding.btnScheduleSMS.setOnClickListener {
 
         }
     }
-
-
-
-
-
 
 
 }

@@ -8,15 +8,15 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import uz.orifjon.childcontrol.databinding.ItemChildBinding
 import uz.orifjon.childcontrol.models.ChildrenForFirebase
 
-class RecyclerViewAdapterForChildren(val onItemClick:(ChildrenForFirebase)->Unit) :
+class RecyclerViewAdapterForChildren(val onItemClick:(ChildrenForFirebase, Int)->Unit) :
     ListAdapter<ChildrenForFirebase, RecyclerViewAdapterForChildren.MyViewHolder>(MyDiffUtils()) {
 
 
     inner class MyViewHolder(var binding: ItemChildBinding) : ViewHolder(binding.root) {
-        fun onBind(childrenForFirebase: ChildrenForFirebase) {
+        fun onBind(childrenForFirebase: ChildrenForFirebase,position: Int) {
             binding.tvName.text = childrenForFirebase.name
             binding.tvUserName.text = childrenForFirebase.userName
-            itemView.setOnClickListener { onItemClick(childrenForFirebase) }
+            itemView.setOnClickListener { onItemClick(childrenForFirebase,position) }
         }
     }
 
@@ -31,7 +31,7 @@ class RecyclerViewAdapterForChildren(val onItemClick:(ChildrenForFirebase)->Unit
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.onBind(getItem(position))
+        holder.onBind(getItem(position),position)
     }
 
     class MyDiffUtils : DiffUtil.ItemCallback<ChildrenForFirebase>() {

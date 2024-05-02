@@ -36,12 +36,18 @@ class MainFragment : Fragment() {
         userForFirebase = arguments?.getSerializable("user") as UserForFirebase
         initialSetting()
         binding.btnAddChild.isEnabled = false
-        adapterForChildren = RecyclerViewAdapterForChildren { child ->
+        adapterForChildren = RecyclerViewAdapterForChildren { child,position->
             val bundle = Bundle()
+            bundle.putInt("position", position)
             bundle.putSerializable("child", child)
             bundle.putSerializable("user", userForFirebase)
+            reference.onDisconnect()
             findNavController().navigate(R.id.controlScreenFragment, bundle)
         }
+
+
+        getData()
+
         return binding.root
     }
 
@@ -61,8 +67,6 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        getData()
-
         addChild()
 
         clickProfile()
@@ -79,7 +83,7 @@ class MainFragment : Fragment() {
     }
 
     private fun getData() {
-        reference.child(userForFirebase.uid).addValueEventListener(object : ValueEventListener {
+        reference.child(userForFirebase.uid).addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val value = dataSnapshot.getValue(UserForFirebase::class.java)
                 userForFirebase = value!!

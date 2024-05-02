@@ -9,6 +9,7 @@ class ChildrenForFirebase : Serializable {
     var name: String = ""
     var userName: String = ""
     var password: String = ""
+    var isLocate:Boolean = false
     var locationNow: ChildLocation? = null
     var taskList: List<Task>? = null
 
@@ -73,6 +74,17 @@ class ChildrenForFirebase : Serializable {
                 this.userName == other.userName &&
                 this.password == other.password &&
                 this.taskList == other.taskList
+    }
+
+    override fun hashCode(): Int {
+        var result = childId.hashCode()
+        result = 31 * result + name.hashCode()
+        result = 31 * result + userName.hashCode()
+        result = 31 * result + password.hashCode()
+        result = 31 * result + isLocate.hashCode()
+        result = 31 * result + (locationNow?.hashCode() ?: 0)
+        result = 31 * result + (taskList?.hashCode() ?: 0)
+        return result
     }
 
 }
