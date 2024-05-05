@@ -54,9 +54,9 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.3" />
+        app:layout_constraintVertical_bias="0.4" />
     <EditText
-        android:id="@+id/childUserNameEditText"
+        android:id="@+id/childUserAgeEditText"
         android:layout_width="@dimen/_280sdp"
         android:layout_height="@dimen/_40sdp"
         android:background="@drawable/edittext_background"
@@ -69,19 +69,7 @@
         app:layout_constraintTop_toBottomOf="@id/childNameEditText"
         app:layout_constraintVertical_bias="0.1" />
 
-    <EditText
-        android:id="@+id/childPasswordEditText"
-        android:layout_width="@dimen/_280sdp"
-        android:layout_height="@dimen/_40sdp"
-        android:background="@drawable/edittext_background"
-        android:hint="@string/child_password"
-        android:paddingStart="@dimen/_10sdp"
-        android:textColorHint="@color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/childUserNameEditText"
-        app:layout_constraintVertical_bias="0.1" />
+
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnAdd"
@@ -93,8 +81,8 @@
         android:textColor="@color/white"
         android:textSize="@dimen/_14ssp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="@id/childPasswordEditText"
-        app:layout_constraintTop_toBottomOf="@id/childPasswordEditText"
+        app:layout_constraintRight_toRightOf="@id/childUserAgeEditText"
+        app:layout_constraintTop_toBottomOf="@id/childUserAgeEditText"
         app:layout_constraintVertical_bias="0.9" />
 
 

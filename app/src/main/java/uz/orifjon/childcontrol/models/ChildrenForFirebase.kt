@@ -7,9 +7,9 @@ import java.io.Serializable
 class ChildrenForFirebase : Serializable {
     var childId: String = ""
     var name: String = ""
-    var userName: String = ""
-    var password: String = ""
-    var isLocate:Boolean = false
+    var age: String = ""
+    var isLocate: Boolean = false
+    var usedApps: List<String>? = null
     var locationNow: ChildLocation? = null
     var taskList: List<Task>? = null
 
@@ -26,43 +26,49 @@ class ChildrenForFirebase : Serializable {
     constructor(childId: String, name: String, userName: String) {
         this.childId = childId
         this.name = name
-        this.userName = userName
-    }
-
-    constructor(childId: String, name: String, userName: String, password: String) {
-        this.childId = childId
-        this.name = name
-        this.userName = userName
-        this.password = password
+        this.age = age
     }
 
 
     constructor(
         childId: String,
         name: String,
-        userName: String,
-        password: String,
+        age: String,
         localNow: ChildLocation
     ) {
         this.childId = childId
         this.name = name
-        this.userName = userName
-        this.password = password
+        this.age = age
         this.locationNow = localNow
     }
 
     constructor(
         childId: String,
         name: String,
-        userName: String,
-        password: String,
+        age: String,
         localNow: ChildLocation,
         taskList: List<Task>
     ) {
         this.childId = childId
         this.name = name
-        this.userName = userName
-        this.password = password
+        this.age = age
+        this.locationNow = localNow
+        this.taskList = taskList
+    }
+
+
+    constructor(
+        childId: String,
+        name: String,
+        age: String,
+        usedApps: List<String>,
+        localNow: ChildLocation,
+        taskList: List<Task>
+    ){
+        this.childId = childId
+        this.name = name
+        this.age = age
+        this.usedApps = usedApps
         this.locationNow = localNow
         this.taskList = taskList
     }
@@ -71,16 +77,14 @@ class ChildrenForFirebase : Serializable {
         return other is ChildrenForFirebase &&
                 this.childId == other.childId &&
                 this.name == other.name &&
-                this.userName == other.userName &&
-                this.password == other.password &&
+                this.age == other.age &&
                 this.taskList == other.taskList
     }
 
     override fun hashCode(): Int {
         var result = childId.hashCode()
         result = 31 * result + name.hashCode()
-        result = 31 * result + userName.hashCode()
-        result = 31 * result + password.hashCode()
+        result = 31 * result + age.hashCode()
         result = 31 * result + isLocate.hashCode()
         result = 31 * result + (locationNow?.hashCode() ?: 0)
         result = 31 * result + (taskList?.hashCode() ?: 0)

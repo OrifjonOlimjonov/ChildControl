@@ -45,20 +45,29 @@ class AddingChildFragment : Fragment() {
             Toast.makeText(requireContext(), "$userForFirebase", Toast.LENGTH_SHORT).show()
             btnAdd.setOnClickListener {
                 val childList = userForFirebase.childList as ArrayList
-                childList.add(getChild())
-                Toast.makeText(requireContext(), "$userForFirebase", Toast.LENGTH_SHORT).show()
-                reference.child(userForFirebase.uid).child("childList/").setValue(childList)
-                findNavController().popBackStack()
+
+                val name = binding.childNameEditText.text.toString()
+                val age = binding.childUserAgeEditText.text.toString()
+                if (name.isEmpty() or age.isEmpty()) {
+                    Toast.makeText(requireContext(), "Maydonlarni to'ldiring!", Toast.LENGTH_SHORT)
+                        .show()
+                } else {
+                    childList.add(getChild(name, age))
+                    Toast.makeText(requireContext(), "$userForFirebase", Toast.LENGTH_SHORT).show()
+                    reference.child(userForFirebase.uid).child("childList/").setValue(childList)
+                    findNavController().popBackStack()
+                }
             }
         }
 
     }
-       val callback: OnBackPressedCallback =
-                   object : OnBackPressedCallback(true) {
-                       override fun handleOnBackPressed() {
-                        findNavController().popBackStack()
-                       }
-                   }
+
+    val callback: OnBackPressedCallback =
+        object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                findNavController().popBackStack()
+            }
+        }
 
 
     private fun initialSetting() {
@@ -66,18 +75,14 @@ class AddingChildFragment : Fragment() {
         reference = firebaseDatabase.getReference("users")
     }
 
-    fun getChild(): ChildrenForFirebase {
+    fun getChild(name: String, age: String): ChildrenForFirebase {
         val reference = reference.push().key
-        val name = binding.childNameEditText.text.toString()
-        val username = binding.childUserNameEditText.text.toString()
-        val password = binding.childPasswordEditText.text.toString()
 
         return ChildrenForFirebase(
             reference!!,
             name = name,
-            userName = username,
-            password = password,
-            ChildLocation(0.0,0.0),
+            age = age,
+            ChildLocation(0.0, 0.0),
             arrayListOf()
         )
     }

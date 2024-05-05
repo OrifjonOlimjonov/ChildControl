@@ -54,10 +54,10 @@
                     android:text="Name: Someone" />
 
                 <TextView
-                    android:id="@+id/tvUserName"
+                    android:id="@+id/tvAge"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Username: Something" />
+                    android:text="Age: 12" />
 
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>

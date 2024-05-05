@@ -76,7 +76,7 @@ class LoginScreenFragment : Fragment() {
         if (phoneNumber.isNotEmpty()) {
             if (phoneNumber.length == 13) {
                 if (password.isNotEmpty()) {
-                    reference.addValueEventListener(object : ValueEventListener {
+                    reference.addListenerForSingleValueEvent(object : ValueEventListener {
 
                         override fun onDataChange(snapshot: DataSnapshot) {
                             val children = snapshot.children

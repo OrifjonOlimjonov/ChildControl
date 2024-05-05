@@ -15,7 +15,7 @@ class RecyclerViewAdapterForChildren(val onItemClick:(ChildrenForFirebase, Int)-
     inner class MyViewHolder(var binding: ItemChildBinding) : ViewHolder(binding.root) {
         fun onBind(childrenForFirebase: ChildrenForFirebase,position: Int) {
             binding.tvName.text = childrenForFirebase.name
-            binding.tvUserName.text = childrenForFirebase.userName
+            binding.tvAge.text = childrenForFirebase.age
             itemView.setOnClickListener { onItemClick(childrenForFirebase,position) }
         }
     }
